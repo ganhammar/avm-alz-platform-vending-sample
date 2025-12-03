@@ -60,9 +60,4 @@ module "private_dns_zones" {
   location         = var.region
   parent_id        = module.resource_group_private_dns_zones.resource_id
   enable_telemetry = var.enable_telemetry
-  virtual_network_link_default_virtual_networks = {
-    for key, vnet in module.hub_and_spoke_network.virtual_network_resource_ids : key => {
-      virtual_network_resource_id = vnet
-    }
-  }
 }
