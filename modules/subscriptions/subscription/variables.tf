@@ -40,7 +40,6 @@ variable "billing_scope" {
 variable "vnets" {
   type = list(object({
     name   = string
-    region = string
     spaces = optional(list(object({
       purpose = string
       size    = string

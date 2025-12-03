@@ -78,7 +78,7 @@ module "subscription" {
   virtual_networks = length(var.vnets) > 0 ? {
     for vnet in var.vnets : vnet.name => {
       name                    = vnet.name
-      location                = vnet.region
+      location                = var.region
       hub_peering_enabled     = true
       hub_network_resource_id = var.hub_network_resource_id
       address_space           = [azureipam_reservation.reservations[vnet.name].cidr_block]

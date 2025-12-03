@@ -8,3 +8,8 @@
       amount: 81235
   owners:
     - anton.ganhammar@aurobay.com
+  vnets:
+    name: example-vnet
+    spaces:
+      - purpose: container-apps
+        size: 26
