@@ -13,17 +13,6 @@ provider "alz" {
   ]
 }
 
-# Management Groups, Policies, and Custom Roles
-module "azure_landing_zone" {
-  source  = "Azure/avm-ptn-alz/azurerm"
-  version = "v0.14.1"
-
-  architecture_name  = "alz"
-  location           = var.region
-  parent_resource_id = data.azapi_client_config.current.tenant_id
-  enable_telemetry   = var.enable_telemetry
-}
-
 # Hub and Spoke Network (Hub, Firewall, DNS Resolver)
 module "resource_group_hub_network" {
   source           = "Azure/avm-res-resources-resourcegroup/azurerm"
@@ -60,4 +49,15 @@ module "private_dns_zones" {
   location         = var.region
   parent_id        = module.resource_group_private_dns_zones.resource_id
   enable_telemetry = var.enable_telemetry
+}
+
+# Management Groups, Policies, and Custom Roles
+module "azure_landing_zone" {
+  source  = "Azure/avm-ptn-alz/azurerm"
+  version = "v0.14.1"
+
+  architecture_name  = "alz"
+  location           = var.region
+  parent_resource_id = data.azapi_client_config.current.tenant_id
+  enable_telemetry   = var.enable_telemetry
 }
