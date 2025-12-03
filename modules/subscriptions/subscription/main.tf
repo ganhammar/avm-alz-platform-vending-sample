@@ -1,24 +1,5 @@
 locals {
-  spaces = flatten([
-    for vnet in var.vnets : (
-      concat(
-        contains(keys(vnet), "spaces") ? [
-          for space in vnet.spaces : {
-            vnet_name = vnet.name
-            purpose   = space.purpose
-            size      = space.size
-          }
-        ] : [],
-        [{
-          vnet_name = vnet.name
-          purpose   = "Private Endpoints"
-          size      = 28
-        }]
-      )
-    )
-  ])
   group_types  = ["reader", "contributor", "owner"]
-  vnet_rg_name = "rg-vnets"
 }
 
 data "azapi_client_config" "current" {}
@@ -42,20 +23,6 @@ resource "azuread_group" "groups" {
   )
 }
 
-# Reserve IP space
-resource "azureipam_reservation" "reservations" {
-  for_each = {
-    for vnet in var.vnets : vnet.name => [
-      for space in local.spaces : space if space.vnet_name == vnet.name
-    ]
-  }
-
-  space       = var.ipam_space
-  blocks      = [var.ipam_block]
-  size        = each.value[0].size
-  description = join(", ", [for space in each.value : space.purpose])
-}
-
 # Create Subscription Module
 module "subscription" {
   source  = "Azure/avm-ptn-alz-sub-vending/azure"
@@ -73,33 +40,12 @@ module "subscription" {
   subscription_management_group_association_enabled = true
   subscription_management_group_id                  = var.management_group_id
 
-  # Virtual Networks
-  virtual_network_enabled = length(var.vnets) > 0
-  virtual_networks = length(var.vnets) > 0 ? {
-    for vnet in var.vnets : vnet.name => {
-      name                    = vnet.name
-      location                = var.region
-      hub_peering_enabled     = true
-      hub_network_resource_id = var.hub_network_resource_id
-      address_space           = [azureipam_reservation.reservations[vnet.name].cidr_block]
-      dns_servers             = var.dns_server_ip_addresses
-      tags = {
-        # IPAM will associate VNET with the block and remove reservation
-        X-IPAM-RES-ID = join(", ", azureipam_reservation.reservations[vnet.name].id)
-      }
-    }
-  } : null
-
   # Resource Groups
   resource_group_creation_enabled = true
   resource_groups = {
     nwrg = {
       name     = "NetworkWatcherRG"
       location = "westeurope"
-    }
-    vnetrg = {
-      name     = local.vnet_rg_name
-      location = var.region
     }
   }
 

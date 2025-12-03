@@ -3,9 +3,6 @@ terraform {
     azapi = {
       source = "Azure/azapi"
     }
-    azureipam = {
-      source = "xtratuscloud/azureipam"
-    }
     alz = {
       source = "azure/alz"
     }

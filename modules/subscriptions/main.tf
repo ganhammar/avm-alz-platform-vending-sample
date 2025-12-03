@@ -29,17 +29,14 @@ module "sandbox" {
     "${subscription.name}-sandbox" => subscription
   }
 
-  name                    = each.value.name
-  cost_center             = each.value.costCenter
-  region                  = each.value.region
-  budgets                 = try(each.value.budgets, [])
-  owners                  = each.value.owners
-  billing_scope           = data.azurerm_billing_enrollment_account_scope.dev_test.id
-  workload_type           = "DevTest"
-  management_group_id     = var.alz_management_groups["sandbox"]
-  hub_network_resource_id = var.hub_network_resource_id
-  ipam_space              = var.ipam_europe_space
-  ipam_block              = var.ipam_europe_block
+  name                = each.value.name
+  cost_center         = each.value.costCenter
+  region              = each.value.region
+  budgets             = try(each.value.budgets, [])
+  owners              = each.value.owners
+  billing_scope       = data.azurerm_billing_enrollment_account_scope.dev_test.id
+  workload_type       = "DevTest"
+  management_group_id = var.alz_management_groups["sandbox"]
 }
 
 # Landing Zone - Corp
@@ -60,11 +57,8 @@ module "landingzone_corp" {
     ) : (
     data.azurerm_billing_enrollment_account_scope.dev_test.id
   )
-  workload_type           = each.value.workloadType
-  management_group_id     = var.alz_management_groups["corp"]
-  hub_network_resource_id = var.hub_network_resource_id
-  ipam_space              = var.ipam_europe_space
-  ipam_block              = var.ipam_europe_block
+  workload_type       = each.value.workloadType
+  management_group_id = var.alz_management_groups["corp"]
 }
 
 # Landing Zone - Online
@@ -84,9 +78,6 @@ module "landingzone_online" {
     ) : (
     data.azurerm_billing_enrollment_account_scope.dev_test.id
   )
-  workload_type           = each.value.workloadType
-  management_group_id     = var.alz_management_groups["online"]
-  hub_network_resource_id = var.hub_network_resource_id
-  ipam_space              = var.ipam_europe_space
-  ipam_block              = var.ipam_europe_block
+  workload_type       = each.value.workloadType
+  management_group_id = var.alz_management_groups["online"]
 }

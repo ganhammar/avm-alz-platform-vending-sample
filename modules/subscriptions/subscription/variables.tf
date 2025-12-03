@@ -37,34 +37,6 @@ variable "billing_scope" {
   type = string
 }
 
-variable "vnets" {
-  type = list(object({
-    name   = string
-    spaces = optional(list(object({
-      purpose = string
-      size    = string
-    })))
-  }))
-  default = []
-}
-
-variable "dns_server_ip_addresses" {
-  type    = list(string)
-  default = []
-}
-
 variable "management_group_id" {
-  type = string
-}
-
-variable "hub_network_resource_id" {
-  type = string
-}
-
-variable "ipam_space" {
-  type = string
-}
-
-variable "ipam_block" {
   type = string
 }
