@@ -22,11 +22,6 @@ variable "alz_management_groups" {
   type = map(string)
 }
 
-variable "dns_server_ip_addresses" {
-  type    = list(string)
-  default = []
-}
-
 variable "hub_network_resource_id" {
   type = string
 }

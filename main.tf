@@ -16,6 +16,5 @@ module "subscriptions" {
   ipam_europe_space                  = module.ipam.europe_space
   ipam_europe_block                  = module.ipam.europe_block
   alz_management_groups              = module.architecture.alz_management_groups
-  dns_server_ip_addresses            = module.architecture.dns_server_ip_addresses
   hub_network_resource_id            = module.architecture.hub_network_resource_id
 }

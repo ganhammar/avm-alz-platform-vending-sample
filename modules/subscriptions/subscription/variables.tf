@@ -48,11 +48,6 @@ variable "vnets" {
   default = []
 }
 
-variable "dns_server_ip_addresses" {
-  type    = list(string)
-  default = []
-}
-
 variable "management_group_id" {
   type = string
 }

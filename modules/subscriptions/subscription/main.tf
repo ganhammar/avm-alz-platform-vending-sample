@@ -82,7 +82,6 @@ module "subscription" {
       hub_peering_enabled     = true
       hub_network_resource_id = var.hub_network_resource_id
       address_space           = [azureipam_reservation.reservations[vnet.name].cidr_block]
-      dns_servers             = var.dns_server_ip_addresses
       tags = {
         # IPAM will associate VNET with the block and remove reservation
         X-IPAM-RES-ID = join(", ", azureipam_reservation.reservations[vnet.name].id)
