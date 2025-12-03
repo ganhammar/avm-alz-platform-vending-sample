@@ -1,0 +1,10 @@
+---
+- name: example
+  costCenter: "64160"
+  region: "Sweden Central"
+  workloadType: "Production"
+  budget:
+    - year: 2025
+      amount: 81235
+  owners:
+    - anton.ganhammar@aurobay.com
