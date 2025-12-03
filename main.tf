@@ -1,7 +1,6 @@
 module "architecture" {
   source                             = "./modules/architecture"
   region                             = var.region
-  private_dns_zone_resource_group_id = var.private_dns_zone_resource_group_id
   enable_telemetry                   = var.enable_telemetry
 }
 

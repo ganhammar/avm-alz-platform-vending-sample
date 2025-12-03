@@ -25,7 +25,7 @@ module "azure_landing_zone" {
 }
 
 # Hub and Spoke Network (Hub, Firewall, DNS Resolver)
-module "resource_group" {
+module "resource_group_hub_network" {
   source           = "Azure/avm-res-resources-resourcegroup/azurerm"
   version          = "0.2.0"
   location         = var.region
@@ -40,17 +40,25 @@ module "hub_and_spoke_network" {
   hub_virtual_networks = {
     primary = {
       location          = var.region
-      default_parent_id = module.resource_group.resource_id
+      default_parent_id = module.resource_group_hub_network.resource_id
     }
   }
 }
 
 # Private DNS Zones
+module "resource_group_private_dns_zones" {
+  source           = "Azure/avm-res-resources-resourcegroup/azurerm"
+  version          = "0.2.0"
+  location         = var.region
+  name             = "rg-private-dns-zones"
+  enable_telemetry = var.enable_telemetry
+}
+
 module "private_dns_zones" {
   source           = "Azure/avm-ptn-network-private-link-private-dns-zones/azurerm"
   version          = "v0.22.2"
   location         = var.region
-  parent_id        = var.private_dns_zone_resource_group_id
+  parent_id        = module.resource_group_private_dns_zones.resource_id
   enable_telemetry = var.enable_telemetry
   virtual_network_link_default_virtual_networks = {
     for key, vnet in module.hub_and_spoke_network.virtual_network_resource_ids : key => {
