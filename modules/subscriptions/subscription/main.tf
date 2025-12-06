@@ -156,7 +156,6 @@ locals {
     "Role Based Access Control Administrator" = "f58310d9-a9f6-439a-9e8d-f62e7b41a168"
     "User Access Administrator"               = "18d7d88d-d35e-4fb5-a5c3-7773c20a72d9"
     "Network Contributor"                     = "4d97b98b-1d4f-4787-a291-c67834d212e7"
-    "Aurobay Network Contributor"             = "c28f9043-afed-438b-9775-93dc13682bd5"
   }
   delegated_role_ids_string = join(", ", values(local.delegated_roles))
   owner_condition           = <<-EOT
