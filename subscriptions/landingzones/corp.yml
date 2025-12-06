@@ -7,7 +7,7 @@
     - year: 2025
       amount: 81235
   owners:
-    - anton.ganhammar@aurobay.com
+    - anton@ganhammar.se
   vnets:
     name: example-vnet
     spaces:
